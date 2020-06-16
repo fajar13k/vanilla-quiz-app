@@ -74,7 +74,19 @@ choices.forEach(choice => {
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset['number'];
-    getNewQuestion();
+
+    // Is the selected answer same as the correct answer? Yes, correct. No, incorrect.
+    const classToApply = selectedAnswer == currentQuestion.answer ? 'correct': 'incorrect';
+
+    // Debug answer
+    // console.log(selectedAnswer == currentQuestion.answer);
+
+    selectedChoice.parentElement.classList.add(classToApply);
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(classToApply);
+      getNewQuestion();
+    }, 1000);
+
   })
 })
 
