@@ -1,5 +1,7 @@
 const question = document.getElementById('question');
 const choices = Array.from(document.getElementsByClassName('choice-text'));
+const questionCounterText = document.getElementById('questionCounter');
+const scoreText = document.getElementById('score');
 
 let currentQuestion = {};
 let acceptingAnswers = false;
@@ -35,6 +37,7 @@ let questions = [
 ]
 
 // Constants
+
 const CORRECT_BONUS = 10;
 const MAX_QUESTIONS = 3;
 
@@ -52,7 +55,11 @@ getNewQuestion = () => {
     return window.location.assign('/end.html');
   }
 
+  // Each new question, the available question gets up
+  // And after that update the innerText
   questionCounter++;
+  questionCounterText.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
+
   const questionIndex = Math.floor(Math.random() * availableQuestions.length);
   currentQuestion = availableQuestions[questionIndex];
   question.innerText = currentQuestion.question;
@@ -78,6 +85,11 @@ choices.forEach(choice => {
     // Is the selected answer same as the correct answer? Yes, correct. No, incorrect.
     const classToApply = selectedAnswer == currentQuestion.answer ? 'correct': 'incorrect';
 
+    // If you get the correct answer, score will increase by the constant you set.
+    if (classToApply === "correct") {
+      incrementScore(CORRECT_BONUS);
+    }
+
     // Debug answer
     // console.log(selectedAnswer == currentQuestion.answer);
 
@@ -89,5 +101,10 @@ choices.forEach(choice => {
 
   })
 })
+
+incrementScore = num => {
+  score += num;
+  scoreText.innerText = score;
+}
 
 startGame();
